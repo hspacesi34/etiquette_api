@@ -1,10 +1,15 @@
 package com.etiquette.Invitation;
 
+import com.etiquette.Board.Board;
+import com.etiquette.User.User;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Invitation {
@@ -15,6 +20,18 @@ public class Invitation {
 
     @Column(nullable = false)
     private String status;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "userSender_id")
+    private User userSender;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "userReciever_id")
+    private User userReciever;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "board_id")
+    private Board board;
 
     public Integer getId(){
         return id;

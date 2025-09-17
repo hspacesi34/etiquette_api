@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.etiquette.User.User;
+import com.etiquette.User.dtos.ReadUserDto;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
 
     Map<String, Object> body = new HashMap<>();
 
-    public ResponseEntity<?> handleSuccesfullRequest(String message, User user) {
+    public ResponseEntity<?> handleSuccesfullRequest(String message, ReadUserDto user) {
         this.body.put("timestamp", LocalDateTime.now());
         this.body.put("status", HttpStatus.OK.value());
         this.body.put("message", message);

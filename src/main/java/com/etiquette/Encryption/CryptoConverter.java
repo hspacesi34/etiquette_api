@@ -1,4 +1,4 @@
-package com.etiquette.User;
+package com.etiquette.Encryption;
 
 
 import java.security.Key;

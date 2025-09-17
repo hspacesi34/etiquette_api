@@ -1,11 +1,18 @@
 package com.etiquette.Task;
 
 import java.util.Date;
+
+import com.etiquette.Board.Board;
+import com.etiquette.BoardColumn.BoardColumn;
+import com.etiquette.User.User;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 
 @Entity
@@ -29,8 +36,24 @@ public class Task {
     @Column(nullable = false)
     private String status;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "board_id")
+    private Board board;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "boardcolumn_id")
+    private BoardColumn boardcolumn;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
