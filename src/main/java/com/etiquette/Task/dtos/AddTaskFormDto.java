@@ -1,7 +1,7 @@
 package com.etiquette.Task.dtos;
 
 import com.etiquette.Board.dtos.AddBoardDto;
-import com.etiquette.BoardColumn.dtos.AddBoardColumn;
+import com.etiquette.BoardColumn.dtos.AddBoardColumnDto;
 import com.etiquette.User.dtos.AddUserDto;
 
 public class AddTaskFormDto {
@@ -10,7 +10,7 @@ public class AddTaskFormDto {
     private String priority;
     private String status;
     private AddBoardDto board;
-    private AddBoardColumn boardColumn;
+    private AddBoardColumnDto boardColumn;
     private AddUserDto user;
 
     public String getName() {
@@ -53,11 +53,11 @@ public class AddTaskFormDto {
         this.board = board;
     }
 
-    public AddBoardColumn getBoardColumn() {
+    public AddBoardColumnDto getBoardColumn() {
         return boardColumn;
     }
 
-    public void setBoardColumn(AddBoardColumn boardColumn) {
+    public void setBoardColumn(AddBoardColumnDto boardColumn) {
         this.boardColumn = boardColumn;
     }
 
