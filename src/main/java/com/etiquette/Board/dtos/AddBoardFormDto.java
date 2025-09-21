@@ -1,9 +1,12 @@
 package com.etiquette.Board.dtos;
 
+import com.etiquette.User.dtos.AddUserDto;
+
 public class AddBoardFormDto {
     
     private String name;
     private String description;
+    private AddUserDto userOwner;
 
     public String getName() {
         return name;
@@ -19,5 +22,13 @@ public class AddBoardFormDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public AddUserDto getUserOwner() {
+        return userOwner;
+    }
+
+    public void setUserOwner(AddUserDto userOwner) {
+        this.userOwner = userOwner;
     }
 }
