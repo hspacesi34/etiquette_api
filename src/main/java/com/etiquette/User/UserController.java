@@ -19,9 +19,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.etiquette.GlobalExceptionHandler.GlobalExceptionHandler;
 import com.etiquette.Mapping.CustomMap;
+import com.etiquette.Role.dtos.AddRoleDto;
 import com.etiquette.Role.dtos.AddRoleFormDto;
+import com.etiquette.Role.dtos.UpdateRoleDto;
 import com.etiquette.User.dtos.AddUserFormDto;
 import com.etiquette.User.dtos.ReadUserDto;
+import com.etiquette.User.dtos.UpdateUserDto;
 
 @Controller // This means that this class is a Controller
 @RequestMapping(path="/user") // This means URL's start with /demo (after Application path)
@@ -35,15 +38,17 @@ public class UserController {
   public @ResponseBody ResponseEntity<?> addNewUser (@RequestBody AddUserFormDto addUserForm) {
     // @ResponseBody means the returned String is the response, not a view name
     // @RequestParam means it is a parameter from the GET or POST request
-
-    User user = modelMapper.map(addUserForm, User.class);
-
     if (userRepository.findByEmail(addUserForm.getEmail()).isPresent()) {
       ResponseEntity<?> exceptionHandler = new GlobalExceptionHandler().handleEntityAlreadyExists("Email already exists");
       return exceptionHandler;
     } else {
-      userRepository.save(user);
-      ResponseEntity<?> exceptionHandler = new GlobalExceptionHandler().handleSuccesfullRequest("User added", null);
+      AddRoleDto addRoleDto = new AddRoleDto();
+      addRoleDto.setId(100);
+      addUserForm.setRole(addRoleDto);
+      User user = modelMapper.map(addUserForm, User.class);
+      User savedUser = userRepository.save(user);
+      ReadUserDto savedUserReadDto = modelMapper.map(savedUser, ReadUserDto.class);
+      ResponseEntity<?> exceptionHandler = new GlobalExceptionHandler().handleSuccesfullRequest("User added", savedUserReadDto);
       return exceptionHandler;
     }
     
@@ -88,22 +93,22 @@ public class UserController {
   }
 
   @PutMapping(path="/update")
-  public @ResponseBody ResponseEntity<?> updateUser (@RequestParam Integer id, @RequestBody AddUserFormDto addUserForm) {
+  public @ResponseBody ResponseEntity<?> updateUser (@RequestParam Integer id, @RequestBody UpdateUserDto updateUserDto) {
     if (!userRepository.existsById(id)) {
       ResponseEntity<?> exceptionHandler = new GlobalExceptionHandler().handleEntityNotFound("User not found");
       return exceptionHandler;
     } else {
-      addUserForm.setId(id);
+      updateUserDto.setId(id);
 
-      AddRoleFormDto addRoleFormDto = new AddRoleFormDto();
-      addRoleFormDto.setId(100);
-      addUserForm.setRole(addRoleFormDto);
+      AddRoleDto addRoleDto = new AddRoleDto();
+      addRoleDto.setId(100);
+      updateUserDto.setRole(addRoleDto);
 
-      User user = modelMapper.map(addUserForm, User.class);
+      User user = modelMapper.map(updateUserDto, User.class);
 
-      userRepository.save(user);
+      User savedUser = userRepository.save(user);
 
-      ReadUserDto readUserDto = modelMapper.map(user, ReadUserDto.class);
+      ReadUserDto readUserDto = modelMapper.map(savedUser, ReadUserDto.class);
 
       ResponseEntity<?> exceptionHandler = new GlobalExceptionHandler().handleSuccesfullRequest("User updated", readUserDto);
       return exceptionHandler;
