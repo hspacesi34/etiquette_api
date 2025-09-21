@@ -48,5 +48,29 @@ public class Invitation {
     public void setStatus(String status){
         this.status = status;
     }
+
+    public User getUserSender() {
+        return userSender;
+    }
+
+    public void setUserSender(User userSender) {
+        this.userSender = userSender;
+    }
+
+    public User getUserReciever() {
+        return userReciever;
+    }
+
+    public void setUserReciever(User userReciever) {
+        this.userReciever = userReciever;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    } 
     
 }
