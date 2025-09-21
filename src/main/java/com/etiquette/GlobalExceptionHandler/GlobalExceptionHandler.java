@@ -25,6 +25,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
 
+    public ResponseEntity<?> handleSuccesfullRequestIterable(String message, Iterable<ReadUserDto> users) {
+        this.body.put("timestamp", LocalDateTime.now());
+        this.body.put("status", HttpStatus.OK.value());
+        this.body.put("message", message);
+        if (users != null) {
+            this.body.put("users", users);
+        }
+        return new ResponseEntity<>(body, HttpStatus.OK);
+    }
+
     public ResponseEntity<?> handleEntityAlreadyExists(String message) {
         this.body.put("timestamp", LocalDateTime.now());
         this.body.put("status", HttpStatus.PRECONDITION_FAILED.value());

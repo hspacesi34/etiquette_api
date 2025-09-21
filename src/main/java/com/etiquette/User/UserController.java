@@ -1,5 +1,7 @@
 package com.etiquette.User;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.etiquette.GlobalExceptionHandler.GlobalExceptionHandler;
+import com.etiquette.Mapping.CustomMap;
 import com.etiquette.Role.dtos.AddRoleFormDto;
 import com.etiquette.User.dtos.AddUserFormDto;
 import com.etiquette.User.dtos.ReadUserDto;
@@ -47,9 +50,16 @@ public class UserController {
   }
 
   @GetMapping(path="/all")
-  public @ResponseBody Iterable<User> getAllUsers() {
-    // This returns a JSON or XML with the users
-    return userRepository.findAll();
+  public @ResponseBody ResponseEntity<?> getAllUsers() {
+    Iterable<User> users = userRepository.findAll();
+    if (((Collection<?>) users).isEmpty()) {
+      ResponseEntity<?> exceptionHandler = new GlobalExceptionHandler().handleEntityNotFound("No users found");
+      return exceptionHandler;
+    } else {
+      List<ReadUserDto> userReadDtoList = CustomMap.mapIterable(users, ReadUserDto.class);
+      ResponseEntity<?> exceptionHandler = new GlobalExceptionHandler().handleSuccesfullRequestIterable("Users found", userReadDtoList);
+      return exceptionHandler;
+    }
   }
 
   @GetMapping(path="/one")
