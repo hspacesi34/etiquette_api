@@ -1,14 +1,15 @@
 package com.etiquette.User.dtos;
 
-import com.etiquette.Role.dtos.AddRoleFormDto;
+import com.etiquette.Role.dtos.ReadRoleDto;
 
 public class ReadUserDto {
+
     private Integer id;
     private String firstname;
     private String lastname;
     private String email;
     private String password;
-    private AddRoleFormDto role;
+    private ReadRoleDto role;
 
     public Integer getId() {
         return id;
@@ -50,11 +51,12 @@ public class ReadUserDto {
         this.password = password;
     }
 
-    public AddRoleFormDto getRole() {
+    public ReadRoleDto getRole() {
         return role;
     }
 
-    public void setRole(AddRoleFormDto addRoleFormDto) {
-        this.role = addRoleFormDto;
+    public void setRole(ReadRoleDto readRoleDto) {
+        this.role = readRoleDto;
     }
+
 }
