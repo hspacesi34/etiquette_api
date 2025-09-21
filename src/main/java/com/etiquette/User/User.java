@@ -3,6 +3,7 @@ package com.etiquette.User;
 import java.util.Date;
 import java.util.List;
 
+import com.etiquette.Board.Board;
 import com.etiquette.Encryption.CryptoConverter;
 import com.etiquette.Invitation.Invitation;
 import com.etiquette.Participation.Participation;
@@ -60,6 +61,9 @@ public class User {
 
   @OneToMany(mappedBy = "user")
   private List<Task> tasks;
+
+  @OneToMany(mappedBy = "userOwner")
+  private List<Board> userBoardsOwned;
 
   public Integer getId() {
     return id;
