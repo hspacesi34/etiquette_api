@@ -24,7 +24,6 @@ public class CryptoConverter implements AttributeConverter<String, String> {
  @Override
  public String convertToDatabaseColumn(String attribute) {
   // Encode data to store into database
-  logger.info("Convert Application data to Database: {}", attribute);
   String value = null;
   try {
    Key key = new SecretKeySpec(SECRET_KEY.getBytes(), ENC);
@@ -42,7 +41,6 @@ public class CryptoConverter implements AttributeConverter<String, String> {
  @Override
  public String convertToEntityAttribute(String dbData) {
   // Decode data to use in Application
-  logger.info("Convert Database to Application data: {}", dbData);
   String value = null;
   try {
    Key key = new SecretKeySpec(SECRET_KEY.getBytes(), ENC);
