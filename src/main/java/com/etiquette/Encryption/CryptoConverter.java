@@ -7,6 +7,8 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
@@ -14,10 +16,18 @@ import jakarta.persistence.Converter;
 public class CryptoConverter implements AttributeConverter<String, String> {
  
  // Secrete Key for encryption
- final String SECRET_KEY = "mkAveKvwK5PSa3a5";
+
+ Dotenv dotenv = Dotenv.load();
+
+ String secretKey = dotenv.get("SECRET_KEY_ENCRYPTION");
+ String enc = dotenv.get("ENC");
+ String algo = dotenv.get("ALGORITHM");
+ 
+ final String SECRET_KEY = secretKey;
+ 
  // Encryption algorithm
- final String ENC = "AES";
- final String ALGORITHM = "AES/ECB/PKCS5Padding";
+ final String ENC = enc;
+ final String ALGORITHM = algo;
  
  private final Logger logger = LoggerFactory.getLogger(getClass());
 
