@@ -1,6 +1,6 @@
 package com.etiquette.Participation.dtos;
 
-public class UpdateInvitationDto extends AddParticipationFormDto {
+public class UpdateParticipationDto extends AddParticipationFormDto {
     
     private Integer id;
 

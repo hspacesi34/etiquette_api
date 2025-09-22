@@ -3,7 +3,7 @@ package com.etiquette.Participation.dtos;
 import com.etiquette.Board.dtos.ReadBoardDto;
 import com.etiquette.User.dtos.ReadUserDto;
 
-public class ReadInvitationDto {
+public class ReadParticipationDto {
     
     private Integer id;
     private ReadUserDto user;
