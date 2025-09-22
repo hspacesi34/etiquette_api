@@ -22,11 +22,11 @@ public class Invitation {
     private String status;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "userSender_id")
+    @JoinColumn(name = "user_sender_id")
     private User userSender;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "userReciever_id")
+    @JoinColumn(name = "user_reciever_id")
     private User userReciever;
 
     @ManyToOne(optional = false)
