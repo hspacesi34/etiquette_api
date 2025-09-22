@@ -1,5 +1,7 @@
 package com.etiquette.BoardColumn;
 
+import java.util.Optional;
+
 import org.springframework.data.repository.CrudRepository;
 
 
@@ -8,5 +10,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface BoardColumnRepository extends CrudRepository<BoardColumn, Integer> {
 
-
+    Optional<BoardColumn> findByName(String name);
 }
