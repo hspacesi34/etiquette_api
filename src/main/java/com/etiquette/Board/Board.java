@@ -35,7 +35,7 @@ public class Board {
     private Date date_created;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "userOwner_id")
+    @JoinColumn(name = "userOwner_id", updatable = false)
     private User userOwner;
 
     @OneToMany(mappedBy = "board")
