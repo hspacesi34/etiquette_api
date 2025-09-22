@@ -46,4 +46,11 @@ public class GlobalExceptionHandler {
         this.body.put("message", message);
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
+
+    public ResponseEntity<?> handleRequestFailed(String message) {
+        this.body.put("timestamp", LocalDateTime.now());
+        this.body.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        this.body.put("message", message);
+        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

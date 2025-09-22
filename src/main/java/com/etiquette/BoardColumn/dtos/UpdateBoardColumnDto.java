@@ -1,6 +1,6 @@
 package com.etiquette.BoardColumn.dtos;
 
-public class UpdateBoardDto extends AddBoardColumnFormDto {
+public class UpdateBoardColumnDto extends AddBoardColumnFormDto {
     
     private Integer id;
 
