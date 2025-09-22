@@ -88,6 +88,30 @@ public class Task {
         this.status = status;
     }
 
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public BoardColumn getBoardColumn() {
+        return boardcolumn;
+    }
+
+    public void setBoardColumn(BoardColumn boardColumn) {
+        this.boardcolumn = boardColumn;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @PrePersist
     void setDate() {
         this.date_created = new Date();
