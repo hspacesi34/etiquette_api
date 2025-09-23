@@ -54,16 +54,17 @@ public class JwtService {
     /**
      * Generate a signed JWT token for the given subject.
      */
-    public String generateToken(String subject) {
-    Date now = new Date();
-    Date expiryDate = new Date(now.getTime() + expirationMillis);
+    public String generateToken(String subject, String role) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + expirationMillis);
 
-    return Jwts.builder()
-            .claim("sub", subject)
-            .issuedAt(now)
-            .expiration(expiryDate)
-            .signWith(privateKey) // No SignatureAlgorithm needed
-            .compact();
+        return Jwts.builder()
+                .claim("sub", subject)
+                .claim("role", role)
+                .issuedAt(now)
+                .expiration(expiryDate)
+                .signWith(privateKey) // No SignatureAlgorithm needed
+                .compact();
     }
 
     /**
@@ -103,14 +104,18 @@ public class JwtService {
         return parseClaims(token).getSubject();
     }
 
+    public Object getRole(String token) {
+        return parseClaims(token).get("role");
+    }
+
     /**
      * Internal method to parse claims using public key.
      */
     private Claims parseClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(publicKey)
+        return Jwts.parser()
+                .verifyWith(publicKey)
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token)
+                .getPayload();
     }
 }

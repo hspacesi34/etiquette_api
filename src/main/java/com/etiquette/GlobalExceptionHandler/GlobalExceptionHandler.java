@@ -53,4 +53,11 @@ public class GlobalExceptionHandler {
         this.body.put("message", message);
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    public ResponseEntity<?> handleAuthFailed(String message) {
+        this.body.put("timestamp", LocalDateTime.now());
+        this.body.put("status", HttpStatus.UNAUTHORIZED.value());
+        this.body.put("message", message);
+        return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
+    }
 }

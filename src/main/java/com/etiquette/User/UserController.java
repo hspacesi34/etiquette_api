@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -44,8 +43,6 @@ public class UserController {
   public UserController(JwtService jwtService) {
         this.jwtService = jwtService;
   }
-  
-  private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
   @PostMapping(path="/add") // Map ONLY POST Requests
   public @ResponseBody ResponseEntity<?> addNewUser (@RequestBody AddUserFormDto addUserForm) {
@@ -141,7 +138,7 @@ public class UserController {
         return exceptionHandler;
       } else {
         String userIdString = Integer.toString(userFound.get().getId());
-        String token = jwtService.generateToken(userIdString);
+        String token = jwtService.generateToken(userIdString, userFound.get().getRole().getName());
 
         // Create cookie
         Cookie cookie = new Cookie("jwt-token", token);
@@ -157,5 +154,25 @@ public class UserController {
         return exceptionHandler;
       }
     }
+  }
+
+  @PostMapping(path="/signin") // Map ONLY POST Requests
+  public @ResponseBody ResponseEntity<?> signinUser (@RequestBody AddUserFormDto addUserForm) {
+    // @ResponseBody means the returned String is the response, not a view name
+    // @RequestParam means it is a parameter from the GET or POST request
+    if (userRepository.findByEmail(addUserForm.getEmail()).isPresent()) {
+      ResponseEntity<?> exceptionHandler = new GlobalExceptionHandler().handleEntityAlreadyExists("Email already exists");
+      return exceptionHandler;
+    } else {
+      AddRoleDto addRoleDto = new AddRoleDto();
+      addRoleDto.setId(100);
+      addUserForm.setRole(addRoleDto);
+      User user = modelMapper.map(addUserForm, User.class);
+      User savedUser = userRepository.save(user);
+      ReadUserDto savedUserReadDto = modelMapper.map(savedUser, ReadUserDto.class);
+      ResponseEntity<?> exceptionHandler = new GlobalExceptionHandler().handleSuccesfullRequest("User added", savedUserReadDto);
+      return exceptionHandler;
+    }
+    
   }
 }
