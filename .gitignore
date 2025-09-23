@@ -34,3 +34,5 @@ build/
 
 .env
 /src/main/resources/application.properties
+/src/main/resources/jwtkeystore.p12
+/src/main/resources/jwtkey.crt
