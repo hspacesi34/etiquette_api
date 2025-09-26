@@ -36,7 +36,7 @@ public class JwtCookieFilter implements Filter {
         String path = req.getServletPath();
 
         // Exclude certain routes from filtering
-        if (path.contains("/user/login") || path.contains("/user/signin") || path.contains("/user/istokenvalid")) {
+        if (path.contains("/user/login") || path.contains("/user/signin") || path.contains("/user/istokenvalid") || path.contains("/board/add")) {
             chain.doFilter(request, response);
             return;
         }
