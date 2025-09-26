@@ -2,10 +2,6 @@ package com.etiquette.filters;
 
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.etiquette.User.UserController;
 import com.etiquette.services.JwtService;
 
 import jakarta.servlet.Filter;
@@ -44,7 +40,7 @@ public class JwtCookieFilter implements Filter {
             chain.doFilter(request, response);
             return;
         }
-        final Logger logger = LoggerFactory.getLogger(UserController.class);
+        
         // Extract token from cookie
         String token = null;
         if (req.getCookies() != null) {

@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -41,9 +40,6 @@ public class UserController {
   ModelMapper modelMapper = new ModelMapper();
 
   private JwtService jwtService;
-
-  private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-
 
   public UserController(JwtService jwtService) {
         this.jwtService = jwtService;
