@@ -2,6 +2,10 @@ package com.etiquette.filters;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.etiquette.User.UserController;
 import com.etiquette.services.JwtService;
 
 import jakarta.servlet.Filter;
@@ -36,11 +40,11 @@ public class JwtCookieFilter implements Filter {
         String path = req.getServletPath();
 
         // Exclude certain routes from filtering
-        if (path.contains("/user/login") || path.contains("/user/signin")) {
+        if (path.contains("/user/login") || path.contains("/user/signin") || path.contains("/user/istokenvalid")) {
             chain.doFilter(request, response);
             return;
         }
-
+        final Logger logger = LoggerFactory.getLogger(UserController.class);
         // Extract token from cookie
         String token = null;
         if (req.getCookies() != null) {
