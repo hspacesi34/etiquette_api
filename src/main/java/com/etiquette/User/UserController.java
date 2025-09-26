@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -146,11 +147,13 @@ public class UserController {
         cookie.setSecure(false);             // Send only over HTTPS (set false for local dev)
         cookie.setPath("/");                // Cookie valid for entire site
         cookie.setMaxAge(60 * 60);         // Expire in 1 hour (seconds)
+        cookie.setDomain("localhost");
+      
 
         // Add cookie to response
         response.addCookie(cookie);
 
-        ResponseEntity<?> exceptionHandler = new GlobalExceptionHandler().handleSuccesfullRequest("Login success, token: "+token, null);
+        ResponseEntity<?> exceptionHandler = new GlobalExceptionHandler().handleSuccesfullRequest("Login success", null);
         return exceptionHandler;
       }
     }
@@ -174,5 +177,20 @@ public class UserController {
       return exceptionHandler;
     }
     
+  }
+
+  @PostMapping(path = "/istokenvalid")
+  public @ResponseBody ResponseEntity<?> isTokenValid (@CookieValue(name = "jwt-token", required = false) String token) {
+        if (token != null) {
+          if (!jwtService.isTokenValid(token)) {
+            ResponseEntity<?> exceptionHandler = new GlobalExceptionHandler().handleEntityNotFound("Invalid token");
+            return exceptionHandler;
+          } else {
+            ResponseEntity<?> exceptionHandler = new GlobalExceptionHandler().handleSuccesfullRequest("Valid token", null);
+            return exceptionHandler;
+          }
+        }
+        ResponseEntity<?> exceptionHandler = new GlobalExceptionHandler().handleEntityNotFound("Cookie not found");
+        return exceptionHandler; 
   }
 }
