@@ -23,6 +23,7 @@ import com.etiquette.Board.dtos.ReadBoardDto;
 import com.etiquette.Board.dtos.UpdateBoardDto;
 import com.etiquette.GlobalExceptionHandler.GlobalExceptionHandler;
 import com.etiquette.Mapping.CustomMap;
+import com.etiquette.User.User;
 import com.etiquette.User.dtos.AddUserDto;
 import com.etiquette.services.JwtService;
 
@@ -64,6 +65,25 @@ public class BoardController {
     } else {
       List<ReadBoardDto> boardReadDtoList = CustomMap.mapIterable(boards, ReadBoardDto.class);
       ResponseEntity<?> exceptionHandler = new GlobalExceptionHandler().handleSuccesfullRequestIterable("Boards found", boardReadDtoList);
+      return exceptionHandler;
+    }
+  }
+
+  @GetMapping(path="/allByUser")
+  public @ResponseBody ResponseEntity<?> getAllBoardsByUser(@CookieValue(name = "jwt-token") String token) {
+    String userOwner = jwtService.getSubject(token);
+    Integer userOwnerInt = Integer.parseInt(userOwner);
+    AddUserDto addUserDto = new AddUserDto();
+    addUserDto.setId(userOwnerInt);
+    User user = modelMapper.map(addUserDto, User.class);
+
+    Iterable<Board> boards = boardRepository.findByUserOwner(user);
+    if (((Collection<?>) boards).isEmpty()) {
+      ResponseEntity<?> exceptionHandler = new GlobalExceptionHandler().handleEntityNotFound("No boards from this User found");
+      return exceptionHandler;
+    } else {
+      List<ReadBoardDto> boardReadDtoList = CustomMap.mapIterable(boards, ReadBoardDto.class);
+      ResponseEntity<?> exceptionHandler = new GlobalExceptionHandler().handleSuccesfullRequestIterable("Boards from this User found", boardReadDtoList);
       return exceptionHandler;
     }
   }

@@ -36,7 +36,7 @@ public class JwtCookieFilter implements Filter {
         String path = req.getServletPath();
 
         // Exclude certain routes from filtering
-        if (path.contains("/user/login") || path.contains("/user/signin") || path.contains("/user/istokenvalid") || path.contains("/board/add")) {
+        if (path.contains("/user/login") || path.contains("/user/signin") || path.contains("/user/istokenvalid")) {
             chain.doFilter(request, response);
             return;
         }
@@ -52,10 +52,10 @@ public class JwtCookieFilter implements Filter {
             }
         }
 
-        if (token == null || !jwtService.isTokenValid(token) || jwtService.isTokenExpired(token)) {
+        if (token == null || !jwtService.isTokenValid(token)) {
             // Token missing or invalid: reject request
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            res.getWriter().write("Unauthorized: Invalid or missing token");
+            res.getWriter().write("Invalid or missing token");
             return;
         }
         
@@ -79,6 +79,12 @@ public class JwtCookieFilter implements Filter {
                 res.getWriter().write("Unauthorized: Invalid role");
                 return;
             }
+        } else if (jwtService.getRole(token).toString().contains("admin")) {
+            chain.doFilter(request, response);
+        } else {
+            res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            res.getWriter().write("Unauthorized: Invalid role");
+            return;
         }
     }
 
